@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Shubh Deepavali · A light for you</title>
+<meta name="description" content="A Diwali greeting. One tap.">
+<meta property="og:title" content="A light, for you ✦">
+<meta property="og:description" content="A Diwali greeting. One tap.">
+<meta name="theme-color" content="#040305">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+Devanagari:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#e6bf78;--ink:#efe6d6;--muted:rgba(239,230,214,.58)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#040305;overflow:hidden;color:var(--ink);font-family:"Cormorant Garamond",Georgia,serif;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(120% 60% at 50% 115%,rgba(140,70,20,.30),transparent 62%),radial-gradient(70% 45% at 50% 45%,rgba(70,35,45,.22),transparent 70%)}
+body:after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:9;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:grain 1s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-2%)}100%{transform:translate(0,0)}}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:manipulation}
+.caps{text-transform:uppercase;letter-spacing:.42em;font-size:12px;font-weight:600;color:var(--gold)}
+#top{position:fixed;left:0;right:0;top:calc(11vh + env(safe-area-inset-top));text-align:center;pointer-events:none;z-index:5;transition:opacity 1.2s ease,transform 1.6s ease,filter 1.2s ease}
+#top.off{opacity:0;transform:translateY(-14px);filter:blur(6px)}
+#top h1{font-weight:300;font-style:italic;font-size:clamp(32px,8.6vw,50px);margin-top:16px;line-height:1.12}
+#top .line{width:1px;height:34px;margin:18px auto 0;background:linear-gradient(var(--gold),transparent)}
+#coach{position:fixed;left:0;top:0;width:0;height:0;pointer-events:none;z-index:5;transition:opacity .8s ease}
+#coach.off{opacity:0}
+#coach .r{position:absolute;left:-48px;top:-48px;width:96px;height:96px;border-radius:50%;border:1px solid rgba(230,191,120,.75);animation:pulse 2.6s ease-out infinite}
+#coach .r.b{animation-delay:1.3s}
+#coach .l{position:absolute;top:96px;left:0;transform:translateX(-50%);white-space:nowrap;font-size:11px;letter-spacing:.38em;padding-left:.38em}
+@keyframes pulse{0%{transform:scale(.5);opacity:0}25%{opacity:.85}100%{transform:scale(1.55);opacity:0}}
+#final{position:fixed;left:0;right:0;bottom:0;padding:0 26px calc(24px + env(safe-area-inset-bottom));text-align:center;pointer-events:none;z-index:5}
+#final>*{opacity:0;transform:translateY(16px);transition:opacity 1.5s ease,transform 1.6s cubic-bezier(.2,.7,.2,1)}
+#final.on>*{opacity:1;transform:none}
+#final.on>:nth-child(1){transition-delay:.1s}#final.on>:nth-child(2){transition-delay:.45s}#final.on>:nth-child(3){transition-delay:1.1s}
+#final.on>:nth-child(4){transition-delay:1.4s}#final.on>:nth-child(5){transition-delay:1.9s}#final.on>:nth-child(6){transition-delay:2.4s}#final.on>:nth-child(7){transition-delay:3s}
+.deva{font-family:"Noto Serif Devanagari",serif;font-weight:300;font-size:19px;letter-spacing:.14em;color:var(--gold)}
+.name{font-weight:300;font-style:italic;font-size:clamp(46px,14.5vw,84px);line-height:1.05;padding:4px 0 6px;background:linear-gradient(100deg,#a8792f 0%,#f3dca6 32%,#fff8e6 46%,#e6bf78 60%,#9c6d2a 100%);background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 7s ease-in-out infinite;filter:blur(16px);letter-spacing:.22em;transition:opacity 1.5s ease,transform 1.6s ease,filter 2.2s ease,letter-spacing 2.6s cubic-bezier(.2,.7,.2,1)!important}
+#final.on .name{filter:blur(0);letter-spacing:0;transition-delay:.45s!important}
+@keyframes sheen{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+.rule{width:46px;height:1px;margin:12px auto 16px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.msg{font-size:clamp(17px,4.6vw,20px);line-height:1.55;color:#e4d9c6;max-width:340px;margin:0 auto}
+.sig{margin-top:16px;font-size:11px}
+.actions{margin-top:22px;display:flex;justify-content:center;gap:10px;pointer-events:auto}
+.btn{font-family:"Cormorant Garamond",Georgia,serif;text-transform:uppercase;letter-spacing:.26em;font-size:12px;font-weight:600;color:#1a1006;background:linear-gradient(180deg,#f5e2b4,#d6a457);border:none;border-radius:999px;padding:15px 24px;text-decoration:none;cursor:pointer;box-shadow:0 12px 44px rgba(230,165,80,.22)}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid rgba(230,191,120,.42);box-shadow:none}
+.hint{margin-top:14px;font-size:14px;font-style:italic;color:var(--muted)}
+#mute{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:10;width:42px;height:42px;border-radius:50%;background:rgba(10,6,8,.35);border:1px solid rgba(230,191,120,.35);color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center}
+#vol{position:fixed;left:0;right:0;bottom:calc(30px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center;gap:10px;font-size:11px;letter-spacing:.34em;z-index:5;pointer-events:none;transition:opacity 1s ease;animation:breathe 2.8s ease-in-out infinite}
+#vol.off{opacity:0!important;animation:none}
+@keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
+#toast{position:fixed;left:50%;top:calc(20px + env(safe-area-inset-top));transform:translateX(-50%);background:#f5e2b4;color:#1a1006;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;z-index:30;transition:opacity .3s}
+.hidden{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<button id="mute" aria-label="Mute or unmute"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg></button>
+<div id="vol" class="caps"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg><span>Turn your volume up</span></div>
+
+<div id="top">
+  <div class="caps" id="kick">Priyank &amp; family</div>
+  <h1 id="title">A light,<br>for you.</h1>
+  <div class="line"></div>
+</div>
+
+<div id="coach"><div class="r"></div><div class="r b"></div><div class="l caps">Tap the flame</div></div>
+
+<div id="final">
+  <div class="deva">शुभ दीपावली</div>
+  <div class="name" id="name">Happy Diwali</div>
+  <div class="rule"></div>
+  <p class="msg" id="msg"></p>
+  <div class="sig caps" id="sig"></div>
+  <div class="actions">
+    <a id="share" class="btn" href="#" target="_blank" rel="noopener">Send this light</a>
+    <button id="replay" class="btn ghost">Again</button>
+  </div>
+  <div class="hint">Touch anywhere to release a light</div>
+</div>
+<div id="toast" class="hidden"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+/* ====== Edit these if you like ====== */
+const DEFAULT_FROM = 'Priyank & family';
+const MESSAGE = 'Wishing you and your family a very Happy Diwali! May this festival of lights bring good health, happiness and prosperity to you.';
+/* ==================================== */
+
+const $ = id => document.getElementById(id);
+const TAU = Math.PI * 2;
+const qs = new URLSearchParams(location.search);
+const clean = s => (s || '').replace(/[<>]/g, '').replace(/\s+/g, ' ').trim();
+const toName = clean(qs.get('to')).slice(0, 24);
+const fromName = clean(qs.get('from')).slice(0, 40) || DEFAULT_FROM;
+
+$('kick').textContent = fromName;
+$('msg').textContent = MESSAGE;
+$('sig').textContent = '— ' + fromName;
+if (toName) {
+  const h = $('title'); h.textContent = '';
+  h.append(toName + ',', document.createElement('br'), 'a light for you.');
+  $('name').textContent = toName;
+}
+
+/* ---------- share ---------- */
+const shareUrl = (() => { const u = new URL(location.href); u.search = ''; u.hash = ''; return u.toString(); })();
+$('share').href = 'https://wa.me/?text=' + encodeURIComponent('✦ Happy Diwali. A light, for you: ' + shareUrl);
+$('share').addEventListener('click', async e => {
+  if (!navigator.share) return;
+  e.preventDefault();
+  try { await navigator.share({ title: 'Happy Diwali', text: '✦ Happy Diwali. A light, for you:', url: shareUrl }); }
+  catch (err) { if (!err || err.name !== 'AbortError') location.href = $('share').href; }
+});
+
+if (!window.THREE) { // no 3D available: show the greeting straight away
+  $('top').classList.add('off'); $('coach').classList.add('off'); $('final').classList.add('on'); return;
+}
+
+/* ---------- sound ---------- */
+let ac = null, master = null, wet = null, muted = false, padOn = false;
+const SILENT = 'data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==';
+let unlockEl = null;
+function initAudio() {
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+  if (!unlockEl) { try { unlockEl = new Audio(SILENT); unlockEl.loop = true; unlockEl.volume = .01; unlockEl.setAttribute('playsinline', ''); const p = unlockEl.play(); if (p) p.catch(() => {}); } catch (e) {} }
+  if (ac) { ac.resume(); return; }
+  try {
+    ac = new (window.AudioContext || window.webkitAudioContext)();
+    const comp = ac.createDynamicsCompressor(); comp.connect(ac.destination);
+    master = ac.createGain(); master.gain.value = .9; master.connect(comp);
+    const conv = ac.createConvolver(), len = ac.sampleRate * 3.5, ir = ac.createBuffer(2, len, ac.sampleRate);
+    for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3); }
+    conv.buffer = ir; wet = ac.createGain(); wet.gain.value = .45; wet.connect(conv); conv.connect(master);
+    ac.resume();
+  } catch (e) { ac = null; }
+}
+function out(node, dry = 1) { const g = ac.createGain(); g.gain.value = dry; node.connect(g); g.connect(master); node.connect(wet); }
+function bell(f, vol = .08, dur = 4, delay = 0) {
+  if (!ac) return; const t = ac.currentTime + delay;
+  [[1, 1], [2.01, .5], [3.02, .28], [4.17, .16], [5.43, .1]].forEach(([m, a], i) => {
+    const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f * m;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol * a, t + .005); g.gain.exponentialRampToValueAtTime(.0001, t + dur / (1 + i * .6));
+    o.connect(g); out(g, .8); o.start(t); o.stop(t + dur + .1);
+  });
+}
+function swell() {
+  if (!ac) return; const t = ac.currentTime;
+  [55, 82.4].forEach((f, i) => { const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.16 - i * .05, t + .45); g.gain.exponentialRampToValueAtTime(.0001, t + 4); o.connect(g); out(g, 1); o.start(t); o.stop(t + 4.1); });
+  const n = ac.createBufferSource(), buf = ac.createBuffer(1, ac.sampleRate * 3, ac.sampleRate), d = buf.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  n.buffer = buf; const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = 1.2;
+  f.frequency.setValueAtTime(300, t); f.frequency.exponentialRampToValueAtTime(5000, t + .5); f.frequency.exponentialRampToValueAtTime(800, t + 2.6);
+  const g = ac.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.09, t + .4); g.gain.exponentialRampToValueAtTime(.0001, t + 2.8);
+  n.connect(f); f.connect(g); out(g, .7); n.start(t); n.stop(t + 3);
+}
+function pad() {
+  if (!ac || padOn) return; padOn = true; const t = ac.currentTime;
+  const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 650; lp.Q.value = .4;
+  const lfo = ac.createOscillator(), lg = ac.createGain(); lfo.frequency.value = .07; lg.gain.value = 220; lfo.connect(lg); lg.connect(lp.frequency); lfo.start();
+  const g = ac.createGain(); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.05, t + 6);
+  lp.connect(g); out(g, .8);
+  [146.83, 220, 293.66, 369.99, 440].forEach((f, i) => [-4, 4].forEach(dt => { const o = ac.createOscillator(); o.type = i < 2 ? 'triangle' : 'sine'; o.frequency.value = f; o.detune.value = dt; o.connect(lp); o.start(t); }));
+}
+const SPARK_NOTES = [1174.66, 1318.5, 1479.98, 1760, 1975.53, 2349.32];
+const SPK_ON = $('mute').innerHTML, SPK_OFF = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';
+$('mute').onclick = () => { initAudio(); muted = !muted; $('mute').innerHTML = muted ? SPK_OFF : SPK_ON; if (master) master.gain.value = muted ? 0 : .9; };
+
+/* ---------- three setup ---------- */
+const cv = $('c');
+const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: false, alpha: true, powerPreference: 'high-performance' });
+renderer.setClearColor(0x000000, 0);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(40, 1, .1, 200);
+const CAMZ = 10;
+// add light onto the page behind the canvas without darkening it
+const ADD = { blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor, blendSrcAlpha: THREE.ZeroFactor, blendDstAlpha: THREE.OneFactor };
+camera.position.set(0, 0, CAMZ);
+let W = 1, H = 1, DPR = 1, visH = 1, pxPU = 1;
+
+const pointVS = `
+uniform float uTime; uniform float uPx; uniform float uOpacity;
+attribute float size; attribute float seed; attribute vec3 acol; attribute float alpha;
+varying vec3 vC; varying float vA;
+void main(){
+  vec3 p = position + 0.012*vec3(sin(uTime*2.3+seed*40.), cos(uTime*1.9+seed*31.), sin(uTime*1.7+seed*17.));
+  vec4 mv = modelViewMatrix*vec4(p,1.);
+  gl_Position = projectionMatrix*mv;
+  float tw = 0.72+0.28*sin(uTime*(1.2+seed*2.4)+seed*50.);
+  gl_PointSize = min(size*uPx*tw/max(-mv.z,0.5), 160.);
+  vC = acol; vA = alpha*uOpacity*tw;
+}`;
+const pointFS = `
+varying vec3 vC; varying float vA;
+void main(){
+  vec2 c = gl_PointCoord-.5; float d2 = dot(c,c)*4.;
+  float a = exp(-d2*10.) + exp(-d2*2.6)*.22;
+  a *= 1.-smoothstep(.75,1.,d2);
+  gl_FragColor = vec4(vC*a*vA,1.);
+}`;
+function pointMat() {
+  return new THREE.ShaderMaterial({ uniforms: { uTime: { value: 0 }, uPx: { value: 100 }, uOpacity: { value: 1 } }, vertexShader: pointVS, fragmentShader: pointFS, ...ADD, depthWrite: false, depthTest: false, transparent: true });
+}
+
+/* ---------- distant field of lights (bokeh) ---------- */
+const FN = 700;
+const fieldGeo = new THREE.BufferGeometry();
+{
+  const p = new Float32Array(FN * 3), s = new Float32Array(FN), sd = new Float32Array(FN), sp = new Float32Array(FN), c = new Float32Array(FN * 3);
+  for (let i = 0; i < FN; i++) {
+    const z = -60 + Math.random() * 62;
+    p[i * 3] = (Math.random() - .5) * (40 + Math.abs(z)); p[i * 3 + 1] = (Math.random() - .5) * 60; p[i * 3 + 2] = z;
+    s[i] = .6 + Math.random() * 1.8; sd[i] = Math.random(); sp[i] = .25 + Math.random() * .7;
+    const warm = Math.random(); c[i * 3] = 1; c[i * 3 + 1] = .55 + warm * .3; c[i * 3 + 2] = .22 + warm * .25;
+  }
+  fieldGeo.setAttribute('position', new THREE.BufferAttribute(p, 3));
+  fieldGeo.setAttribute('size', new THREE.BufferAttribute(s, 1));
+  fieldGeo.setAttribute('seed', new THREE.BufferAttribute(sd, 1));
+  fieldGeo.setAttribute('speed', new THREE.BufferAttribute(sp, 1));
+  fieldGeo.setAttribute('acol', new THREE.BufferAttribute(c, 3));
+}
+const fieldMat = new THREE.ShaderMaterial({
+  uniforms: { uTime: { value: 0 }, uPx: { value: 100 }, uOpacity: { value: .22 } },
+  vertexShader: `
+uniform float uTime; uniform float uPx; uniform float uOpacity;
+attribute float size; attribute float seed; attribute float speed; attribute vec3 acol;
+varying vec3 vC; varying float vA; varying float vBlur;
+void main(){
+  vec3 p = position;
+  p.y = mod(p.y + uTime*speed + 30., 60.) - 30.;
+  p.x += sin(uTime*.35 + seed*20.)*.6;
+  vec4 mv = modelViewMatrix*vec4(p,1.);
+  gl_Position = projectionMatrix*mv;
+  float dist = -mv.z;
+  vBlur = clamp(abs(dist-28.)/26., 0., 1.);
+  gl_PointSize = min(size*uPx*(1.+vBlur*2.5)/max(dist,1.), 220.);
+  float edge = smoothstep(30., 22., abs(p.y));
+  vC = acol; vA = uOpacity*edge*(0.6+0.4*sin(uTime*1.3+seed*40.))*(1.-vBlur*.55);
+}`,
+  fragmentShader: `
+varying vec3 vC; varying float vA; varying float vBlur;
+void main(){
+  vec2 c = gl_PointCoord-.5; float d2 = dot(c,c)*4.;
+  float sharp = exp(-d2*8.);
+  float disk = (1.-smoothstep(.55,1.,d2))*.35;
+  float a = mix(sharp, disk, vBlur);
+  gl_FragColor = vec4(vC*a*vA,1.);
+}`,
+  ...ADD, depthWrite: false, depthTest: false, transparent: true
+});
+scene.add(new THREE.Points(fieldGeo, fieldMat));
+
+/* ---------- hero: gold dust that is a diya, then a mandala ---------- */
+const N = 2400;
+const heroG = new THREE.Group(); scene.add(heroG);
+const heroGeo = new THREE.BufferGeometry();
+const pos = new Float32Array(N * 3), size = new Float32Array(N), seed = new Float32Array(N), col = new Float32Array(N * 3), alpha = new Float32Array(N);
+const diyaP = new Float32Array(N * 3), diyaS = new Float32Array(N), mandP = new Float32Array(N * 3), mandS = new Float32Array(N), shellP = new Float32Array(N * 3);
+const GOLDS = [[1, .86, .56], [1, .95, .8], [.93, .7, .32], [1, 1, .96], [1, .78, .45]];
+for (let i = 0; i < N; i++) {
+  seed[i] = Math.random(); alpha[i] = 1;
+  const g = GOLDS[(Math.random() * GOLDS.length) | 0]; col[i * 3] = g[0]; col[i * 3 + 1] = g[1]; col[i * 3 + 2] = g[2];
+}
+// diya targets (a 3D bowl with a spout, made of dust)
+(() => {
+  let k = 0;
+  const put = (x, y, z, s) => { if (k >= N) return; diyaP[k * 3] = x; diyaP[k * 3 + 1] = y; diyaP[k * 3 + 2] = z; diyaS[k] = s; k++; };
+  for (let i = 0; i < 280; i++) { const a = i / 280 * TAU; put(Math.cos(a), 0, Math.sin(a), 1.25); }
+  for (let i = 0; i < 1050; i++) { const u = Math.pow(Math.random(), .8), a = Math.random() * TAU, r = Math.sqrt(Math.max(0, 1 - u * u)); put(r * Math.cos(a), -.52 * u, r * Math.sin(a), .7); }
+  for (let i = 0; i < 280; i++) { const t = Math.random(), ph = Math.PI + Math.random() * Math.PI, rr = .3 * (1 - t) + .035; put(.82 + .63 * t, .14 * t + rr * Math.sin(ph) * .55, rr * Math.cos(ph), .85); }
+  for (let i = 0; i < 90; i++) { const a = i / 90 * TAU; put(.36 * Math.cos(a), -.52, .36 * Math.sin(a), .95); }
+  for (let i = 0; i < 170; i++) { const r = Math.sqrt(Math.random()) * .9, a = Math.random() * TAU; put(r * Math.cos(a), -.05, r * Math.sin(a), .45); }
+  while (k < N) { const a = Math.random() * TAU, r = 1.4 + Math.random() * 1.6; put(Math.cos(a) * r * 1.1, (Math.random() - .5) * 2.4, Math.sin(a) * r * .6, .38); }
+})();
+// mandala targets (a gold astrolabe of rings and petals)
+(() => {
+  let k = 0;
+  const put = (x, y, z, s) => { if (k >= N) return; mandP[k * 3] = x; mandP[k * 3 + 1] = y; mandP[k * 3 + 2] = z; mandS[k] = s; k++; };
+  const ring = (r, n, s, rx = 0, ry = 0) => { for (let i = 0; i < n; i++) { const a = i / n * TAU; let x = r * Math.cos(a), y = r * Math.sin(a), z = 0; if (rx) { const y2 = y * Math.cos(rx), z2 = y * Math.sin(rx); y = y2; z = z2; } if (ry) { const x2 = x * Math.cos(ry), z2 = -x * Math.sin(ry); x = x2; z = z2; } put(x, y, z, s); } };
+  ring(2.0, 240, .95);
+  for (let i = 0; i < 48; i++) { const a = i / 48 * TAU; put(2.26 * Math.cos(a), 2.26 * Math.sin(a), 0, 2.1); }
+  ring(1.55, 170, .75, 1.15, 0);
+  ring(1.55, 170, .75, 0, 1.15);
+  for (let i = 0; i < 720; i++) { const t = i / 720 * TAU, r = 1.72 * Math.abs(Math.cos(4 * t)); put(r * Math.cos(t), r * Math.sin(t), .16 * Math.sin(8 * t), .85); }
+  for (let i = 0; i < 470; i++) { const t = i / 470 * TAU, r = .95 * Math.abs(Math.cos(6 * t)); put(r * Math.cos(t), r * Math.sin(t), -.1 * Math.cos(12 * t), .78); }
+  for (let i = 0; i < 120; i++) { const u = Math.random(), a = Math.random() * TAU, b = Math.acos(2 * Math.random() - 1), r = .15 * Math.cbrt(u); put(r * Math.sin(b) * Math.cos(a), r * Math.sin(b) * Math.sin(a), r * Math.cos(b), 1.5); }
+  while (k < N) { const a = Math.random() * TAU, r = 2.45 + Math.pow(Math.random(), 2) * 1.3; put(r * Math.cos(a), r * Math.sin(a), (Math.random() - .5) * 1.2, .5); }
+})();
+for (let i = 0; i < N; i++) {
+  const a = Math.random() * TAU, b = Math.acos(2 * Math.random() - 1), r = 2.6 + Math.pow(Math.random(), .7) * 6.5;
+  shellP[i * 3] = r * Math.sin(b) * Math.cos(a); shellP[i * 3 + 1] = r * Math.sin(b) * Math.sin(a) * .8; shellP[i * 3 + 2] = r * Math.cos(b) * .9 + 1.5;
+}
+pos.set(diyaP); size.set(diyaS);
+heroGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+heroGeo.setAttribute('size', new THREE.BufferAttribute(size, 1));
+heroGeo.setAttribute('seed', new THREE.BufferAttribute(seed, 1));
+heroGeo.setAttribute('acol', new THREE.BufferAttribute(col, 3));
+heroGeo.setAttribute('alpha', new THREE.BufferAttribute(alpha, 1));
+const heroMat = pointMat();
+const hero = new THREE.Points(heroGeo, heroMat); hero.frustumCulled = false; heroG.add(hero);
+
+/* ---------- flame + glow ---------- */
+const flameMat = new THREE.ShaderMaterial({
+  uniforms: { uTime: { value: 0 }, uI: { value: 1 } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `
+uniform float uTime; uniform float uI; varying vec2 vUv;
+void main(){
+  float y = vUv.y; float x = vUv.x*2.-1.;
+  x -= (sin(uTime*6.3)*.09 + sin(uTime*11.7+1.3)*.045)*y*y;
+  float w = .95*sqrt(max(0., y*(1.-y)*4.))*(1.-.55*y);
+  float d = abs(x)/max(w,.001);
+  float a = smoothstep(1.,.2,d)*smoothstep(0.,.07,y);
+  vec3 col = mix(vec3(1.,.98,.92), vec3(1.,.8,.4), smoothstep(.1,.6,d+y*.35));
+  col = mix(col, vec3(1.,.42,.1), smoothstep(.55,1.05,d+y*.3));
+  col += vec3(.25,.4,1.)*smoothstep(.22,0.,y)*smoothstep(.6,0.,d)*.6;
+  float fl = .9 + .1*sin(uTime*23.) + .05*sin(uTime*37.);
+  gl_FragColor = vec4(col*a*uI*fl,1.);
+}`,
+  ...ADD, depthWrite: false, depthTest: false, transparent: true
+});
+const flame = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), flameMat); heroG.add(flame);
+const glowMat = new THREE.ShaderMaterial({
+  uniforms: { uI: { value: .6 } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `uniform float uI; varying vec2 vUv; void main(){ vec2 c = vUv-.5; float d2 = dot(c,c)*4.; float a = exp(-d2*3.5)*.55 + exp(-d2*14.)*.45; gl_FragColor = vec4(vec3(1.,.66,.32)*a*uI,1.); }`,
+  ...ADD, depthWrite: false, depthTest: false, transparent: true
+});
+const glow = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), glowMat); heroG.add(glow);
+const TIP = new THREE.Vector3(1.47, .15, 0);
+
+/* ---------- released lights (taps) ---------- */
+const SN = 600;
+const spGeo = new THREE.BufferGeometry();
+const spPos = new Float32Array(SN * 3), spVel = new Float32Array(SN * 3), spLife = new Float32Array(SN), spMax = new Float32Array(SN).fill(1), spSize = new Float32Array(SN), spSeed = new Float32Array(SN), spCol = new Float32Array(SN * 3), spA = new Float32Array(SN);
+for (let i = 0; i < SN; i++) { spSeed[i] = Math.random(); const g = GOLDS[i % GOLDS.length]; spCol.set(g, i * 3); spPos[i * 3 + 2] = -999; }
+spGeo.setAttribute('position', new THREE.BufferAttribute(spPos, 3));
+spGeo.setAttribute('size', new THREE.BufferAttribute(spSize, 1));
+spGeo.setAttribute('seed', new THREE.BufferAttribute(spSeed, 1));
+spGeo.setAttribute('acol', new THREE.BufferAttribute(spCol, 3));
+spGeo.setAttribute('alpha', new THREE.BufferAttribute(spA, 1));
+const spMat = pointMat();
+const spPoints = new THREE.Points(spGeo, spMat); spPoints.frustumCulled = false; scene.add(spPoints);
+let spNext = 0;
+function release(x, y) {
+  const v = new THREE.Vector3((x / W) * 2 - 1, -(y / H) * 2 + 1, .5).unproject(camera).sub(camera.position).normalize();
+  const t = -camera.position.z / v.z, p = camera.position.clone().add(v.multiplyScalar(t));
+  for (let k = 0; k < 70; k++) {
+    const i = spNext; spNext = (spNext + 1) % SN;
+    const a = Math.random() * TAU, b = Math.acos(2 * Math.random() - 1), s = .4 + Math.random() * 2.2;
+    spPos[i * 3] = p.x; spPos[i * 3 + 1] = p.y; spPos[i * 3 + 2] = p.z;
+    spVel[i * 3] = Math.sin(b) * Math.cos(a) * s; spVel[i * 3 + 1] = Math.sin(b) * Math.sin(a) * s + .6; spVel[i * 3 + 2] = Math.cos(b) * s;
+    spLife[i] = spMax[i] = 2 + Math.random() * 2.2; spSize[i] = .5 + Math.random() * 1.1;
+  }
+  if (ac && !muted) for (let j = 0; j < 3; j++) bell(SPARK_NOTES[(Math.random() * SPARK_NOTES.length) | 0], .025, 2.5, j * .09);
+}
+
+/* ---------- layout ---------- */
+const lerp = (a, b, t) => a + (b - a) * t;
+const clamp01 = t => Math.max(0, Math.min(1, t));
+const eOutExpo = t => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+const eInOut = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const eOutCubic = t => 1 - Math.pow(1 - t, 3);
+let S_DIYA, S_CENTER, S_FINAL;
+function resize() {
+  W = innerWidth; H = innerHeight; DPR = Math.min(2, window.devicePixelRatio || 1);
+  renderer.setPixelRatio(DPR); renderer.setSize(W, H, false);
+  camera.aspect = W / H; camera.updateProjectionMatrix();
+  visH = 2 * CAMZ * Math.tan(THREE.MathUtils.degToRad(20)); pxPU = H / visH;
+  const px = H * DPR * .085;
+  heroMat.uniforms.uPx.value = px; spMat.uniforms.uPx.value = px; fieldMat.uniforms.uPx.value = px * 1.4;
+  const sd = Math.min(W * .62, H * .34) / (2.7 * pxPU);
+  S_DIYA = { x: -.22 * sd, y: -.07 * visH, s: sd };
+  S_CENTER = { x: 0, y: -.02 * visH, s: Math.min(W * .44, H * .3) / (2.3 * pxPU) };
+  S_FINAL = { x: 0, y: (.5 - .265) * visH, s: Math.min(W * .4, H * .195) / (2.3 * pxPU) };
+}
+addEventListener('resize', resize); resize();
+
+/* ---------- choreography ---------- */
+// idle -> ignite (flare) -> burst (dust explodes, camera flies in) -> converge (spirals into mandala) -> final
+let stage = 'idle', T = 0, igT = 0, phase = null, finalOn = false, mandRot = 0;
+let px = 0, py = 0, tpx = 0, tpy = 0;
+const fromP = new Float32Array(N * 3), fromS = new Float32Array(N), delay = new Float32Array(N);
+function startPhase(toP, toS, dur, ease, swirl, maxDelay) {
+  fromP.set(pos); fromS.set(size);
+  for (let i = 0; i < N; i++) delay[i] = Math.random() * maxDelay;
+  phase = { t0: T, toP, toS, dur, ease, swirl, maxDelay };
+}
+function bakeRotation() {
+  const v = new THREE.Vector3();
+  for (let i = 0; i < N; i++) { v.set(pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2]).applyEuler(hero.rotation); pos[i * 3] = v.x; pos[i * 3 + 1] = v.y; pos[i * 3 + 2] = v.z; }
+  hero.rotation.set(0, 0, 0);
+}
+function ignite() {
+  if (stage !== 'idle') return;
+  initAudio();
+  stage = 'ignite'; igT = T;
+  $('top').classList.add('off'); $('coach').classList.add('off'); $('vol').classList.add('off');
+  if (ac) { bell(293.66, .09, 5); bell(587.33, .04, 4, .02); swell(); }
+}
+function resetToDiya() {
+  pos.set(diyaP); size.set(diyaS); phase = null; hero.rotation.set(.32, 0, 0); mandRot = 0;
+  stage = 'idle'; finalOn = false; $('final').classList.remove('on');
+}
+cv.addEventListener('pointerdown', e => {
+  if (ac) ac.resume();
+  if (stage === 'idle') ignite();
+  else if (stage !== 'ignite') release(e.clientX, e.clientY);
+});
+$('replay').onclick = () => { initAudio(); resetToDiya(); setTimeout(ignite, 900); };
+addEventListener('pointermove', e => { tpx = (e.clientX / W - .5) * 2; tpy = (e.clientY / H - .5) * 2; });
+addEventListener('deviceorientation', e => { if (e.gamma == null) return; tpx = Math.max(-1, Math.min(1, e.gamma / 30)); tpy = Math.max(-1, Math.min(1, ((e.beta || 45) - 45) / 30)); });
+
+hero.rotation.set(.32, 0, 0);
+const tmp = new THREE.Vector3();
+const coachL = document.querySelector('#coach .l');
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now; T += dt;
+  const tt = T - igT;
+  px += (tpx - px) * Math.min(1, dt * 2); py += (tpy - py) * Math.min(1, dt * 2);
+
+  // stage transitions
+  if (stage === 'ignite' && tt > .38) { stage = 'burst'; bakeRotation(); startPhase(shellP, null, 1.7, eOutExpo, 0, .18); }
+  if (stage === 'burst' && tt > 2.05) { stage = 'converge'; startPhase(mandP, mandS, 2.6, eInOut, 2.4, .7); pad(); }
+  if (stage === 'converge' && tt > 5.2) stage = 'final';
+  if (stage === 'final' && !finalOn && tt > 5.3) { finalOn = true; $('final').classList.add('on'); }
+
+  // particle phase
+  if (phase) {
+    let done = true;
+    for (let i = 0; i < N; i++) {
+      let p = clamp01((T - phase.t0 - delay[i]) / phase.dur); if (p < 1) done = false;
+      const e = phase.ease(p), i3 = i * 3;
+      let x = lerp(fromP[i3], phase.toP[i3], e), y = lerp(fromP[i3 + 1], phase.toP[i3 + 1], e), z = lerp(fromP[i3 + 2], phase.toP[i3 + 2], e);
+      if (phase.swirl) { const a = (1 - e) * phase.swirl, c = Math.cos(a), s = Math.sin(a); const x2 = x * c - y * s; y = x * s + y * c; x = x2; }
+      pos[i3] = x; pos[i3 + 1] = y; pos[i3 + 2] = z;
+      if (phase.toS) size[i] = lerp(fromS[i], phase.toS[i], e);
+    }
+    heroGeo.attributes.size.needsUpdate = true;
+    if (done) phase = null;
+  }
+  heroGeo.attributes.position.needsUpdate = true;
+
+  // rotation
+  if (stage === 'idle' || stage === 'ignite') { hero.rotation.y = Math.sin(T * .45) * .38 + px * .25; hero.rotation.x = .32 + py * .12; }
+  else if (stage === 'converge' || stage === 'final') { mandRot += dt * .09; hero.rotation.set(py * .22 + Math.sin(T * .3) * .08, px * .35 + Math.sin(T * .23) * .22, mandRot); }
+
+  // group placement
+  let gs = S_DIYA;
+  if (stage === 'converge' || stage === 'final') {
+    const k1 = eInOut(clamp01((tt - 2.05) / 2.6)), k2 = eInOut(clamp01((tt - 4.9) / 1.6));
+    const a = { x: lerp(S_DIYA.x, S_CENTER.x, k1), y: lerp(S_DIYA.y, S_CENTER.y, k1), s: lerp(S_DIYA.s, S_CENTER.s, k1) };
+    gs = { x: lerp(a.x, S_FINAL.x, k2), y: lerp(a.y, S_FINAL.y, k2), s: lerp(a.s, S_FINAL.s, k2) };
+  }
+  heroG.position.set(gs.x, gs.y, 0); heroG.scale.setScalar(gs.s);
+
+  // flame + glow
+  let fI = 1, fS = 1;
+  if (stage === 'ignite') { const k = clamp01(tt / .38); fI = 1 + k * 1.4; fS = 1 + k * .7; }
+  else if (stage !== 'idle') { fI = Math.max(0, 2.4 * (1 - tt / .6)); fS = 1.7 + tt * 2; }
+  tmp.copy(TIP).applyEuler(hero.rotation);
+  flame.visible = fI > .01;
+  flame.scale.set(.34 * fS, .82 * fS, 1); flame.position.set(tmp.x, tmp.y + .82 * fS * .46, tmp.z + .05);
+  flameMat.uniforms.uI.value = fI;
+  let gI, gSize, gPos;
+  if (stage === 'idle' || stage === 'ignite') { gI = .55 + (stage === 'ignite' ? clamp01(tt / .38) * .9 : 0) + Math.sin(T * 7) * .03; gSize = 5.5; gPos = [tmp.x, tmp.y + .35, tmp.z]; }
+  else { const surge = Math.max(0, 1.4 * (1 - (tt - .38) / 1.4)); const core = eInOut(clamp01((tt - 3) / 2)) * (.65 + Math.sin(T * 1.5) * .06); gI = surge + core; gSize = lerp(9, 6.5, clamp01((tt - 2) / 3)); const k = clamp01((tt - .38) / 2.5); gPos = [lerp(tmp.x, 0, k), lerp(tmp.y + .35, 0, k), 0]; }
+  glow.position.set(gPos[0], gPos[1], gPos[2] - .1); glow.scale.set(gSize, gSize, 1); glowMat.uniforms.uI.value = gI;
+  glow.quaternion.copy(heroG.quaternion).invert(); flame.quaternion.identity();
+
+  // field
+  const fo = stage === 'idle' || stage === 'ignite' ? .22 : lerp(.22, 1, clamp01((tt - .3) / 1.2));
+  fieldMat.uniforms.uOpacity.value += (fo - fieldMat.uniforms.uOpacity.value) * Math.min(1, dt * 3);
+
+  // camera: fly into the burst, then settle
+  let dolly = 0;
+  if (stage !== 'idle' && stage !== 'ignite') dolly = tt < 1.6 ? eOutCubic(clamp01((tt - .38) / 1.22)) : 1 - eInOut(clamp01((tt - 1.6) / 2.6));
+  camera.position.set(px * .7, -py * .45, CAMZ - dolly * 3.6);
+  camera.rotation.z = dolly * .06;
+  camera.lookAt(0, 0, 0); camera.rotation.z += dolly * .05;
+
+  // released lights
+  if (stage !== 'idle') {
+    for (let i = 0; i < SN; i++) {
+      if (spLife[i] <= 0) { spA[i] = 0; continue; }
+      spLife[i] -= dt; const i3 = i * 3, k = Math.max(0, 1 - 1.3 * dt);
+      spVel[i3] *= k; spVel[i3 + 1] = spVel[i3 + 1] * k + .5 * dt; spVel[i3 + 2] *= k;
+      spPos[i3] += spVel[i3] * dt; spPos[i3 + 1] += spVel[i3 + 1] * dt; spPos[i3 + 2] += spVel[i3 + 2] * dt;
+      spA[i] = Math.min(1, spLife[i] / spMax[i] * 1.6);
+    }
+    spGeo.attributes.position.needsUpdate = true; spGeo.attributes.alpha.needsUpdate = true; spGeo.attributes.size.needsUpdate = true;
+  }
+
+  heroMat.uniforms.uTime.value = T; fieldMat.uniforms.uTime.value = T; spMat.uniforms.uTime.value = T; flameMat.uniforms.uTime.value = T;
+  renderer.render(scene, camera);
+
+  // coach mark follows the flame
+  if (stage === 'idle') {
+    flame.getWorldPosition(tmp); tmp.project(camera);
+    const cx = (tmp.x + 1) / 2 * W, cy = (1 - tmp.y) / 2 * H;
+    $('coach').style.transform = `translate(${cx}px,${cy}px)`;
+    coachL.style.left = (Math.max(84, Math.min(W - 84, cx)) - cx) + 'px';
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
